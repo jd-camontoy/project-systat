@@ -1,0 +1,47 @@
+<template>
+  <div class="row transition visible">
+    <div class="sixteen wide column">
+      <table class="ui celled table">
+        <thead class="center aligned">
+          <tr>
+            <th width="35%">Defect Description</th>
+            <th width="20%">Reported Start Date</th>
+            <th width="20%">Reported End Date</th>
+            <th width="15%">Total Defect Downtime (days)</th>
+            <th width="10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="35%" data-label="Defect Description">Bug in a button</td>
+            <td width="20%" data-label="Reported Start Date">Apr 2, 2019 13:00:00</td>
+            <td width="20%" data-label="Reported End Date">Apr 2, 2019 14:00:00</td>
+            <td width="15%" data-label="Total Defect Downtime (days)">0.01</td>
+            <td width="10%" data-label="Actions" class="center aligned">
+              <a>Edit</a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="full-width">
+          <tr>
+            <th colspan="5" class="center aligned">
+              <div class="ui small secondary button" @click="openAddDefectModal">Add defect</div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</template>
+
+<script>
+import { eventBus } from '../../main';
+
+export default {
+  methods: {
+    openAddDefectModal() {
+      eventBus.$emit('addDefectModalWasOpened', true);
+    }
+  }
+}
+</script>
