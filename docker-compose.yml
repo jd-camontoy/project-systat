@@ -1,21 +1,24 @@
 version: '3'
 
 services:
-  storage-mongodb:
-    container_name: "storage-mongodb"
-    build: ./services/storage-mongodb
+  storage-mysql:
+    container_name: "storage-mysql"
+    build: ./services/storage-mysql
     ports:
       - 27017:27017
     restart: always
+    env_file: ./services/storage-mysql/db.env
+  storage-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   api-python:
     container_name: "api-python"
     build: ./projects/api-python
     volumes: 
       - ./projects/api-python:/usr/src/app
-    environment:
-      - DB_HOST=storage-mongodb
-      - DB_PORT=27017
-      - DB_NAME=project-systat
+    env_file: ./services/api-python/api.env
     links:
       - storage-mongodb
     ports:
