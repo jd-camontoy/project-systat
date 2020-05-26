@@ -1,11 +1,12 @@
-version: '3'
+version: '3.1'
 
 services:
   storage-mysql:
     container_name: "storage-mysql"
     build: ./services/storage-mysql
     ports:
-      - 27017:27017
+      - 3306:3306
+    command: --sql_mode=''
     restart: always
     env_file: ./services/storage-mysql/db.env
   storage-adminer:
@@ -16,10 +17,11 @@ services:
   api-python:
     container_name: "api-python"
     build: ./projects/api-python
+    restart: always
     volumes: 
       - ./projects/api-python:/usr/src/app
     env_file: ./services/api-python/api.env
     links:
-      - storage-mongodb
+      - storage-mysql
     ports:
       - 5000:80
