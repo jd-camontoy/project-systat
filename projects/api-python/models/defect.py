@@ -24,13 +24,13 @@ class Defect(Resource):
                 FROM `rj_system_defects_tb`
                 WHERE `system_status_id` = %s
             """
-            arg = (system_status_id)
+            arg = (system_status_id, )
             cursor.execute(sql,arg)
             result = cursor.fetchall()
             data = []
             key = ('id', 'defect_description', 'date_reported', 'date_fixed_released')
             for system in result:
-                item = (str(system['id']), system['defect_description'], system['date_reported'], system['date_fixed_released'])
+                item = (system[0], str(system[1]), str(system[2]), str(system[3]))
                 data.append(dict(zip(key, item)))
             return flask.jsonify(data)
 
@@ -38,29 +38,28 @@ class Defect(Resource):
             return {'error': str(exception)}
 
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('params', type=str, help='')
-        args = parser.parse_args()
-        params = json.loads(args['params'])
-
-        system_status_id = params['system_status_id'] if 'system_status_id' in params else None
-        defect_description = params['defect_description'] if 'defect_description' in params else None
-        date_reported = params['date_reported'] if 'date_reported' in params else None
-        date_fixed_released = params['date_fixed_released'] if 'date_fixed_released' in params else None
-
-        if (
-            system_name == None or 
-            system_percentage == None or 
-            date_reported == None or 
-            date_fixed_released == None
-        ):
-            return {
-                'success' : False,
-                'message' : 'Incomplete parameters'
-            }
-
         try:
-            data = {'name': system_name, 'percentage': system_percentage}
+            parser = reqparse.RequestParser()
+            parser.add_argument('params', type=str, help='')
+            args = parser.parse_args()
+            params = json.loads(args['params'])
+
+            system_status_id = params['system_status_id'] if 'system_status_id' in params else None
+            defect_description = params['defect_description'] if 'defect_description' in params else None
+            date_reported = params['date_reported'] if 'date_reported' in params else None
+            date_fixed_released = params['date_fixed_released'] if 'date_fixed_released' in params else None
+
+            if (
+                system_status_id == None or 
+                defect_description == None or 
+                date_reported == None or 
+                date_fixed_released == None
+            ):
+                return {
+                    'success' : False,
+                    'message' : 'Incomplete parameters'
+                }
+                
             database = Database.connect()
             cursor = database.cursor()
             sql = """

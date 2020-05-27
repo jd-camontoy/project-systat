@@ -7,7 +7,10 @@ from infrastracture.database import Database
 class System(Resource):
     def get(self):
         try:
-            period_id = 1
+            parser = reqparse.RequestParser()
+            parser.add_argument('period_id', type=int, help='')
+            args = parser.parse_args()
+            period_id = args['period_id']
 
             database = Database.connect()
             cursor = database.cursor()
