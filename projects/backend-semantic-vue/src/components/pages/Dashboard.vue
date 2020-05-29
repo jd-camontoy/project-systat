@@ -13,19 +13,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import Header from "@/components/organisms/Header.vue";
 import CurrentStatuses from "@/components/organisms/CurrentStatuses.vue";
 import SystemStatuses from "@/components/organisms/SystemStatuses.vue";
 import AddDefectModal from "@/components/organisms/AddDefectModal.vue";
 
-export default {
-  name: "dashboard",
+@Component({
   components: {
     'app-header': Header,
     'app-current-statuses': CurrentStatuses,
     'app-system-statuses': SystemStatuses,
     'app-add-defect-modal': AddDefectModal
   }
-};
+})
+export default class Dashboard extends Vue {
+  
+}
+
 </script>
