@@ -21,12 +21,15 @@ class Period(Resource):
                 LIMIT 1
             """
             cursor.execute(sql)
-            result = cursor.fetchall()
-            data = []
-            key = ('id', 'period_name', 'period_start_date', 'period_end_date')
-            for system in result:
-                item = (system[0], str(system[1]), str(system[2]), str(system[3]))
-                data.append(dict(zip(key, item)))
+            result = cursor.fetchone()
+            if result is None:
+                return {
+                    'success' : False,
+                    'error' : 'No record on periods'
+                }
+
+            data = {}
+            data['id'], data['period_name'], data['period_start_date'], data['period_end_date'] = result
             return flask.jsonify(data)
 
         except Exception as exception:

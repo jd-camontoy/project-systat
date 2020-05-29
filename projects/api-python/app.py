@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 from models.system import System
 from models.defect import Defect
 from models.period import Period
 
 APP = Flask(__name__)
 API = Api(APP)
+CORS(APP)
 
 @APP.route("/")
 def index():
