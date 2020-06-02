@@ -13,77 +13,47 @@
 
     <div class="ui grid">
       <div class="sixteen wide column">
-        <div class="row pb-10">
-          <div class="ui segment">
-            <div class="ui grid middle aligned">
-              <div class="row">
-                <div class="six wide column">
-                  <h4 class="ui header">Tutor Website</h4>
-                </div>
-                <div class="four wide column">
-                  <p>2 defects</p>
-                </div>
-                <div class="four wide column">
-                  <h3 class="ui header">92.51%</h3>
-                </div>
-                <div class="two wide column right aligned">
-                  <a href="#" @click="toggleVisiblity">{{ defectListDisplayState }}</a>
-                </div>
-              </div>
-              <transition
-                enter-active-class="animating in fade down" 
-                leave-active-class="animating out fade down">
-                <DefectList v-if="isDefectListDisplayVisible"/>
-              </transition>
-            </div>
-          </div>
-        </div>
-        <div class="row pb-10">
-          <div class="ui segment">
-            <div class="ui grid middle aligned">
-              <div class="row">
-                <div class="six wide column">
-                  <h4 class="ui header">Tutor Website</h4>
-                </div>
-                <div class="four wide column">
-                  <p>2 defects</p>
-                </div>
-                <div class="four wide column">
-                  <h3 class="ui header">92.51%</h3>
-                </div>
-                <div class="two wide column right aligned">
-                  <a>Expand</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <app-system-detail-card 
+          v-for="system in systems"
+          :key="system.id"
+          :name="system.system_name"
+          :defect_count="countDefect(system.defects)"
+          :percentage="system.percentage"
+          :defects="system.defects" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import DefectList from "@/components/organisms/DefectList";
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import SystemModule from "@/store/modules/system";
+import SystemDetailCard from '@/components/molecules/SystemDetailCard.vue';
+import { Defect } from "@/api/interface";
 
-export default {
-    data() {
-        return {
-            isDefectListDisplayVisible: true
-        }
-    },
-    computed: {
-      defectListDisplayState() {
-        return (this.isDefectListDisplayVisible) ? 'Collapse' : 'Expand';
-      }
-    },
-    components: {
-        DefectList
-    },
-    methods: {
-      toggleVisiblity() {
-        this.isDefectListDisplayVisible = !this.isDefectListDisplayVisible;
-      }
+@Component({
+  components: {
+    'app-system-detail-card': SystemDetailCard
+  }
+})
+export default class SystemStatuses extends Vue {
+  systems = null;
+
+  mounted() {
+    this.initializeSystems();
+  }
+
+  countDefect(defects: Defect[]) {
+    let count = 0;
+    for (const defect of defects) {
+      count++;
     }
-};
+    return count;
+  }
+
+  async initializeSystems() {
+    await SystemModule.initStates();
+    this.systems = SystemModule.currentSystemList;
+  }
+}
 </script>

@@ -31,7 +31,7 @@
               <div class="description">
                 <span>Expected Uptime (Days)</span>
               </div>
-              <div class="header pt-10">183 days</div>
+              <div style="color: red;" class="header pt-10">183 days</div>
             </div>
           </div>
         </div>

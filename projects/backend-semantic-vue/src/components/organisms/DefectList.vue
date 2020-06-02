@@ -12,11 +12,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td width="35%" data-label="Defect Description">Bug in a button</td>
-            <td width="20%" data-label="Reported Start Date">Apr 2, 2019 13:00:00</td>
-            <td width="20%" data-label="Reported End Date">Apr 2, 2019 14:00:00</td>
-            <td width="15%" data-label="Total Defect Downtime (days)">0.01</td>
+          <tr v-for="defect in defects" :key="defect.id">
+            <td width="35%" data-label="Defect Description">{{ defect.defect_description }}</td>
+            <td width="20%" data-label="Reported Start Date">{{ defect.date_reported }}</td>
+            <td width="20%" data-label="Reported End Date">{{ defect.date_fixed_released }}</td>
+            <td style="color: red;" width="15%" data-label="Total Defect Downtime (days)">0.01</td>
             <td width="10%" data-label="Actions" class="center aligned">
               <a>Edit</a>
             </td>
@@ -38,6 +38,7 @@
 import { eventBus } from '../../main';
 
 export default {
+  props: ['defects'],
   methods: {
     openAddDefectModal() {
       eventBus.$emit('addDefectModalWasOpened', true);
