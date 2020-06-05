@@ -54,11 +54,11 @@ export default {
     return {
       addDefectModalIsOpen: {
         type: Boolean,
-        default: true
+        default: false
       },
       showModal: {
         type: Boolean,
-        default: true
+        default: false
       },
     };
   },

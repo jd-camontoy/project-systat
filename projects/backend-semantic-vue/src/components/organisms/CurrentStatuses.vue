@@ -63,8 +63,8 @@ import CurrentPeriodDetailCard from "@/components/molecules/CurrentPeriodDetailC
 export default class CurrentStatuses extends Vue {
 
   currentPeriodName = "";
-  currentPeriodStartDate = 0;
-  currentPeriodEndDate = 0;
+  currentPeriodStartDate = "";
+  currentPeriodEndDate = "";
 
   mounted() {
     this.initizalizeCurrentPeriod();

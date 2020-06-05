@@ -21,7 +21,7 @@ class PeriodModule extends VuexModule {
     }
     
 
-    @Action
+    @Action({rawError: true})
     async initStates() {
         const data = await getCurrentPeriod();
         this.SET_CURRENT_PERIOD(data);
